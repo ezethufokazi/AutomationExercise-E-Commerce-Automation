@@ -28,6 +28,9 @@ public class TC003_LoginDataDrivenTest extends BaseClass {
 			hp.clickSignupLogin();
 			logger.info("Navigated to Signup/Login page");
 			
+			// Dismiss any ads before interacting
+			dismissAds();
+			
 			// Enter login credentials
 			LoginPage lp= new LoginPage(driver);
 			lp.setLoginCredentials(email, password);
@@ -35,7 +38,6 @@ public class TC003_LoginDataDrivenTest extends BaseClass {
 			logger.info("Login attempted");							
 			
             // Check if login was successful
-			
 			boolean loginSuccessful = hp.loginSuccess();
 			  /*
              * Test logic:
