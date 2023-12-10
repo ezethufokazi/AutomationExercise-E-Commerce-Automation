@@ -8,7 +8,7 @@ public class DataProviders {
 	
 	@DataProvider(name="dp")
 	public String[][] getData() throws IOException{
-		String path = ".\\testData\\\\LoginData.xlsx";
+		String path = System.getProperty("user.dir")+ "\\testData\\\\LoginData.xlsx";
 		ExcelUtility xlutil = new ExcelUtility(path);
 		
 		int rows = xlutil.getRowCount("Sheet1");

@@ -41,7 +41,10 @@ WebElement btnSignup;
 //===== Action Methods =====
 
 public void setLoginCredentials(String email, String password) {
-	WebDriverWait wait= new WebDriverWait(driver, Duration.ofSeconds(10));
+	WebDriverWait wait= new WebDriverWait(driver, Duration.ofSeconds(20));
+	
+	wait.until(ExpectedConditions.urlContains("login"));
+	
 	wait.until(ExpectedConditions.elementToBeClickable(txtLoginEmail));
 	dismissAds();
 	txtLoginEmail.clear();
