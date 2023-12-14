@@ -27,7 +27,7 @@ public class TC002_LoginTest extends BaseClass {
 			String email= p.getProperty("email");
 			String password= p.getProperty("password");
 			lp.setLoginCredentials(email, password);
-			logger.info("Entered credentials for: " + email);
+			logger.info("Entered credentials for: " + email); 
 			
 			lp.clickLogin();
 			logger.info("Login button clicked");
