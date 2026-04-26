@@ -19,6 +19,9 @@ public class TC002_LoginTest extends BaseClass {
 			hp.clickSignupLogin();
 			logger.info("Navigated to Signup/Login page");
 			
+			// Dismiss any ads before interacting
+			dismissAds();
+			
 			// Enter login credentials
 			LoginPage lp= new LoginPage(driver);
 			String email= p.getProperty("email");

@@ -43,8 +43,10 @@ WebElement btnSignup;
 public void setLoginCredentials(String email, String password) {
 	WebDriverWait wait= new WebDriverWait(driver, Duration.ofSeconds(10));
 	wait.until(ExpectedConditions.elementToBeClickable(txtLoginEmail));
+	dismissAds();
 	txtLoginEmail.clear();
 	txtLoginEmail.sendKeys(email);
+	dismissAds();
 	txtPassword.clear();
 	txtPassword.sendKeys(password);
 }

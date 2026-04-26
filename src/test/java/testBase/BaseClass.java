@@ -13,6 +13,7 @@ import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +29,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import java.util.HashMap;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class BaseClass {
 
@@ -70,11 +73,17 @@ public Properties p;
 			
 			// set browser
 		    switch(br.toLowerCase()) {
-		        case "chrome":
-		            driver = new RemoteWebDriver(
-		                URI.create("http://localhost:4444").toURL(),
-		                new ChromeOptions());
-		            break;
+		    case "chrome":
+		        ChromeOptions remoteOptions = new ChromeOptions();
+		        remoteOptions.setExperimentalOption("prefs", new HashMap<String, Object>() {{
+		            put("credentials_enable_service", false);
+		            put("profile.password_manager_enabled", false);
+		            put("autofill.profile_enabled", false);
+		        }});
+		        driver = new RemoteWebDriver(
+		            URI.create("http://localhost:4444").toURL(),
+		            remoteOptions);
+		        break;
 		        case "firefox":
 		            driver = new RemoteWebDriver(
 		                URI.create("http://localhost:4444").toURL(),
@@ -95,8 +104,18 @@ public Properties p;
 		    switch(br.toLowerCase()) {
 		        case "chrome":
 		            WebDriverManager.chromedriver().setup();
-		            driver = new ChromeDriver();
+		            
+		            ChromeOptions options = new ChromeOptions();
+		            options.addArguments("--disable-save-password-bubble");
+		            options.setExperimentalOption("prefs", new HashMap<String, Object>() {{
+		                put("credentials_enable_service", false);
+		                put("profile.password_manager_enabled", false);
+		                put("autofill.profile_enabled", false);
+		            }});
+
+		            driver = new ChromeDriver(options);
 		            break;
+		           
 		        case "firefox":
 		            WebDriverManager.firefoxdriver().setup();
 		            driver = new FirefoxDriver();
@@ -174,4 +193,18 @@ public Properties p;
 		return targetFilePath;
 
 	}
+	
+	public void dismissAds() {
+		   try {
+		       JavascriptExecutor js = (JavascriptExecutor) driver;
+		       js.executeScript(
+		           "var ads = document.getElementById('ad_position_box');" +
+		           "if(ads) ads.remove();" +
+		           "var iframes = document.querySelectorAll('iframe');" +
+		           "iframes.forEach(function(i) { i.remove(); });"
+		       );
+		   } catch (Exception e) {
+		       // No ad found
+		   }
+		}
 }
